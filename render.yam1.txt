@@ -1,0 +1,81 @@
+version: 1
+
+services:
+  # ==================== DATABASES ====================
+  postgres:
+    type: pgsql
+    name: gax-postgres
+    databaseName: global_atlantic_xpress
+    user: postgres
+    plan: free  # Change to "starter" or "pro" later if needed
+
+  redis:
+    type: redis
+    name: gax-redis
+    plan: free
+
+  # ==================== BACKEND ====================
+  backend:
+    type: web
+    name: gax-backend
+    runtime: docker
+    rootDirectory: backend
+    dockerfilePath: Dockerfile
+    plan: free
+    
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+      
+      # Database
+      - key: DB_HOST
+        fromDatabase:
+          name: gax-postgres
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: gax-postgres
+          property: port
+      - key: DB_NAME
+        value: global_atlantic_xpress
+      - key: DB_USER
+        value: postgres
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: gax-postgres
+          property: password
+
+      # Redis
+      - key: REDIS_URL
+        fromService:
+          name: gax-redis
+          property: connectionString
+
+      # Security
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      - key: ENCRYPTION_KEY
+        generateValue: true
+
+      # Frontend URL (will be updated after frontend deploys)
+      - key: FRONTEND_URL
+        value: "https://gax-frontend.onrender.com"
+
+  # ==================== FRONTEND ====================
+  frontend:
+    type: web
+    name: gax-frontend
+    runtime: docker
+    rootDirectory: frontend
+    dockerfilePath: Dockerfile
+    plan: free
+    
+    envVars:
+      - key: NEXT_PUBLIC_API_URL
+        value: "https://gax-backend.onrender.com/api"
+      - key: NEXT_PUBLIC_WS_URL
+        value: "https://gax-backend.onrender.com"
