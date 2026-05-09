@@ -1,0 +1,37 @@
+{
+  "name": "global-atlantic-xpress-api",
+  "version": "1.0.0",
+  "description": "Global Atlantic Xpress Ltd. - Precious Metals Logistics API",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
+    "migrate": "node src/migrations/migrate.js",
+    "seed": "node src/seeds/seed.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0",
+    "dotenv": "^16.4.5",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.11.5",
+    "redis": "^4.6.14",
+    "socket.io": "^4.7.5",
+    "express-rate-limit": "^7.3.1",
+    "express-validator": "^7.1.0",
+    "morgan": "^1.10.0",
+    "winston": "^3.13.0",
+    "uuid": "^9.0.1",
+    "crypto-js": "^4.2.0",
+    "nodemailer": "^6.9.13",
+    "twilio": "^5.1.1",
+    "multer": "^1.4.5-lts.1",
+    "csurf": "^1.11.0",
+    "cookie-parser": "^1.4.6"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.3"
+  }
+}
